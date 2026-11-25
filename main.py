@@ -16,6 +16,9 @@ def main() -> None:
     if not SCENE or len(SCENE) > 280:
         print("error: entry scene must be non-empty and at most 280 characters", file=sys.stderr)
         sys.exit(1)
+    if any(ord(ch) < 32 or ord(ch) == 127 for ch in SCENE):
+        print("error: entry scene must be exactly one clean line (no newline or control characters)", file=sys.stderr)
+        sys.exit(1)
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
